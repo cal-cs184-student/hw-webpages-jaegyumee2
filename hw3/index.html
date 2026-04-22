@@ -1,6 +1,7 @@
-<html>
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 		<style>
 			h1 {
@@ -24,83 +25,487 @@
 				font-family: 'Inter', sans-serif;
 			}
 		</style>
-	</head>
-	<body>
+  </head>
+  <body>
 		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 3 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<h1>CS184/284A Spring 2026 Homework 3 PathTracer Write-Up</h1>
+		<div style="text-align: center;">Names: Jaegyeom KIM</div>
+
+    <br>
+
+		Link to webpage : <a href="https://cal-cs184-student.github.io/hw-webpages-jaegyumee2/hw3/">cal-cs184-student.github.io/hw-webpages-jaegyumee2/hw3/</a>
 
 		<br>
-
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
 		
-		<figure>
-			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
+		Link to GitHub repository : <a href="https://github.com/cal-cs184-student/hw3-pathtracer-jaegyumee.git">github.com/cal-cs184-student/hw3-pathtracer-jaegyumee</a>
+		
+		<br>
+		
+		Link to HW page : <a href="https://cs184.eecs.berkeley.edu/sp26/hw/hw3/">cs184.eecs.berkeley.edu/sp26/hw/hw3/</a>
+
+
+    <figure>
+			<img src="images/example_image.png" alt="Teapot" style="width:100%"/>
 			<figcaption>You can add images with captions!</figcaption>
 		</figure>
 
-		<!--
-		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
-		-->
+    <p>All of the text in your write-up should be <em>in your own words</em>. If you need to add additional HTML features to this document, you can search the <a href="http://www.w3schools.com/">http://www.w3schools.com/</a> website for instructions. To edit the HTML, you can just copy and paste existing chunks and fill in the text and image file names appropriately.</p>
+    <o>The website writeup is intended to be a self-contained walkthrough of the assignment: we want this to be a piece of work which showcases your understanding of relevant concepts through both mesh images as well as written explanations about what you did to complete each part of the assignment. Try to be as clear and organized as possible when writing about your own output files or extensions to the assignment. We want to understand what you've achieved and how you've done it!</p> 
+    <p>If you are well-versed in web development, feel free to ditch this template and make a better looking page.</p>
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
-		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <p>Here are a few problems students have encountered in the past. Test your website on the instructional machines early!</p>
+    <ul>
+    <li>Your main report page should be called index.html.</li>
+    <li>Be sure to include and turn in all of the other files (such as images) that are linked in your report!</li>
+    <li>Use only <em>relative</em> paths to files, such as <pre>"./images/image.jpg"</pre>
+    Do <em>NOT</em> use absolute paths, such as <pre>"/Users/student/Desktop/image.jpg"</pre></li>
+    <li>Pay close attention to your filename extensions. Remember that on UNIX systems (such as the instructional machines), capitalization matters. <pre>.png != .jpeg != .jpg != .JPG</pre></li>
+    <li>Be sure to adjust the permissions on your files so that they are world readable. For more information on this please see this tutorial: <a href="http://www.grymoire.com/Unix/Permissions.html">http://www.grymoire.com/Unix/Permissions.html</a></li>
+    <li>And again, test your website on the instructional machines early!</li>
+    </ul>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			</table>
-		</div>
-		
-		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-		<h2>Part 3: Direct Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <p>Here is an example of how to include a simple formula:</p>
+    <p align="middle"><pre align="middle">a^2 + b^2 = c^2</pre></p>
+    <p>or, alternatively, you can include an SVG image of a LaTex formula.</p>
 
-		<h2>Part 4: Global Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <div>
 
-		<h2>Part 5: Adaptive Sampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <h2>Overview</h2>
+    <p>
+        In HW3, I built the core pipeline of a physically-based Path Tracer.
+        1. Starting with ray generation and triangle intersection using the Möller-Trumbore algorithm, I implemented a Bounding Volume Hierarchy (BVH) to significantly accelerate rendering times.<br>
+        2. For lighting calculations, I implemented Direct Illumination by comparing Uniform Hemisphere Sampling and Importance Sampling.<br>
+        3. Extended this to Global Illumination using Russian Roulette to approximate infinite light bounces, dramatically increasing the realism of the scenes.<br>
+        4. Implemented Adaptive Sampling, which dynamically adjusts the number of samples based on pixel convergence (confidence intervals), teaching me how to effectively reduce rendering noise while optimizing computational performance.<br>
+        <br>
+    </p>
+    <br>
 
-		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
-	</body>
+    <h2>Part 1: Ray Generation and Scene Intersection (20 Points)</h2>
+    <!-- Walk through the ray generation and primitive intersection parts of the rendering pipeline.
+    Explain the triangle intersection algorithm you implemented in your own words.
+    Show images with normal shading for a few small .dae files. -->
+
+    <h3>
+      Walk through the ray generation and primitive intersection parts of the rendering pipeline.
+    </h3>
+    <p>
+        1. Receive 2D normalized pixel coordinate (x,y) of image plane,<br>
+        2. Change it to 3D vector of Camera space with FOV.<br>
+        3. Change camera space to world space with c2w matrix and normarlize it.<br>
+        4. Make 3D Ray with Camera's position as staring point.<br>
+        5. Shoot multiple rays in one pixel for AA.<br>
+        6. Average colors of scene and decide pixel color.<br>
+        7. Conduct intersection check with shooted ray through every objects in scene.<br>
+        8. If intersect, update max_t with current intersection distance, and blind further object not to be seen.<br>
+    </p>
+    <br>
+
+    <h3>
+      Explain the triangle intersection algorithm you implemented in your own words.
+    </h3>
+    <p>
+        1. Solve simultaneous equation of linear equation and Barycentric coordinates equation.<br>
+        2. Solving it with Cramer's rule so that can be optimized as form of matrix. This is Moller-Trumbore algorithm.<br>
+        3. Check two downside rule with result t, u, v.<br>
+        3.1. u, v, (1-u-v) are value between 0 to 1.<br>
+        3.2. t value should exist between min_t to max_t.<br>
+        4. If the result value t, u, v meet upside rules, update normal vector of intersection point with interpolation with u,v,w and save it into struct isect.<br>
+    </p>
+    <br>
+
+    <h3>
+      Show images with normal shading for a few small .dae files.
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/1.1.png" width="400px"/>
+            <figcaption>CBempty.dae</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/1.2.png" width="400px"/>
+            <figcaption>CBspheres.dae</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/1.3.png" width="400px"/>
+            <figcaption>CBgems.dae</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/1,4.png" width="400px"/>
+            <figcaption>CBcoil.dae</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br>
+
+
+    <h2>Part 2: Bounding Volume Hierarchy (20 Points)</h2>
+    <!-- Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
+    Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.
+    Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis. -->
+
+    <h3>
+      Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
+    </h3>
+    <p>
+        1. Loop every objects of current node, and calculate a big BBox that cover all of them.<br>
+        2. If the number of objects is less than max_leaf_size, set the node as leaf node. Set start point and end point at this node.<br>
+        3. If not a leaf node, select longest axis in current box.<br>
+        3.1. I found longest point and select midpoint of every object's centroid for heuristic.<br>
+        4. Divide the objects into two group with the selected axis as basis.<br>
+        5. For divided group, call construct_bvh recursively, so that keep make child node and connect.<br>
+    </p>
+
+    <h3>
+      Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/2.1.png" width="400px"/>
+            <figcaption>cow.dae</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/2.2.png" width="400px"/>
+            <figcaption>beast.dae</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/2.3.png" width="400px"/>
+            <figcaption>beetle.dae</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/2.4.png" width="400px"/>
+            <figcaption>maxplanck.dae</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br>
+
+    <h3>
+      Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis.
+    </h3>
+    <p>
+        With BVH is much faster than without BVH. Without BVH, it spend a lot of time to check every triangles one by one by every rays. However, with BVH, it only check boundary detected triangles. It makes rendering much shorter than naive way.
+    </p>
+    <br>
+
+    <h2>Part 3: Direct Illumination (20 Points)</h2>
+    <!-- Walk through both implementations of the direct lighting function.
+    Show some images rendered with both implementations of the direct lighting function.
+    Focus on one particular scene with at least one area light and compare the noise levels in soft shadows when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, not uniform hemisphere sampling.
+    Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis. -->
+
+    <h3>
+      Walk through both implementations of the direct lighting function.
+    </h3>
+    <p>
+        1. Uniform Hemishpere Sampling : Shoot rays randomly to hemishpere direction from hit point. When this ray hit different object, if the object is light, calculate amount of light with rendering equation. It's inefficient because it shoot the light randomly and hit the light luckily.<br>
+        2. Importance Sampling : Shoot shadow rays directly to every light in scene. If there's no object between ray and light, there's no shadow and add amount of light. It's accurate and converge because it target the light directly.<br>
+    </p>
+
+    <h3>
+      Show some images rendered with both implementations of the direct lighting function.
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <!-- Header -->
+        <tr>
+          <th>
+            <b>Uniform Hemisphere Sampling</b>
+          </th>
+          <th>
+            <b>Light Sampling</b>
+          </th>
+        </tr>
+        <br>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/3.5.png" width="400px"/>
+            <figcaption>CBdragon.dae</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/3.6.png" width="400px"/>
+            <figcaption>CBdragon.dae</figcaption>
+          </td>
+        </tr>
+        <br>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/3.7.png" width="400px"/>
+            <figcaption>CBcoil.dae</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/3.8.png" width="400px"/>
+            <figcaption>CBcoil.dae</figcaption>
+          </td>
+        </tr>
+        <br>
+      </table>
+    </div>
+    <br>
+
+    <h3>
+      Focus on one particular scene with at least one area light and compare the noise levels in <b>soft shadows</b> when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, <b>not</b> uniform hemisphere sampling.
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/3.1.png" width="400px"/>
+            <figcaption>1 Light Ray (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/3.2.png" width="400px"/>
+            <figcaption>4 Light Rays (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/3.3.png" width="400px"/>
+            <figcaption>16 Light Rays (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/3.4.png" width="400px"/>
+            <figcaption>64 Light Rays (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>
+        As light sample increase from 1 to 64, noise of penumbra made by area light is decreased noticably and it becoems smoother.
+    </p>
+    <br>
+
+    <h3>
+      Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.
+    </h3>
+    <p>
+        Because hemisphere shoot ray randomly, the less number of light is, the harder to find light source by ray. It make hard noise on entire image. Especially for point light, it's area is 0 and hemishpere can't find it. However, importance shoot ray directly to light source, so that it can calculate amount of light without abandoned rays. Therefore, even if use same sample, importance make less noise and smoother image result.
+    </p>
+    <br>
+
+
+    <h2>Part 4: Global Illumination (20 Points)</h2>
+    <!-- Walk through your implementation of the indirect lighting function.
+    Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
+    Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+    For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+    Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
+    You will probably want to use the instructional machines for the above renders in order to not burn up your own computer for hours. -->
+
+    <h3>
+      Walk through your implementation of the indirect lighting function.
+    </h3>
+    <p>
+        1. Add light and decide if shoot the next light or not with russian rullet(70%)<br>
+        2. If shoot, get direction randomly with sample_f and shoot new light.<br>
+        3. Conduct step 1,2 recursively.<br>
+        4. At the end, accumulate the lights with rendering equation.<br>
+    </p>
+    <br>
+
+    <h3>
+      Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.1.png" width="400px"/>
+            <figcaption>CBbunny.dae</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/4.2.png" width="400px"/>
+            <figcaption>CBspheres.dae</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br>
+
+    <h3>
+      Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.3.png" width="400px"/>
+            <figcaption>Only direct illumination (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/4.4.png" width="400px"/>
+            <figcaption>Only indirect illumination (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br>
+    <p>
+        Only direct only show the place where light reach directly. This makes shadow parts darkly. However, only indirect show only reflected lights. This makes the scene overally soft and smooth.
+    </p>
+    <br>
+
+    <h3>
+      For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.5.png" width="400px"/>
+            <figcaption>max_ray_depth = 0 (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/4.6.png" width="400px"/>
+            <figcaption>max_ray_depth = 1 (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.7.png" width="400px"/>
+            <figcaption>max_ray_depth = 2 (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/4.8.png" width="400px"/>
+            <figcaption>max_ray_depth = 3 (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+            <tr>
+          <td style="text-align: center;">
+            <img src="images/4.9.png" width="400px"/>
+            <figcaption>max_ray_depth = 4 (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/4.10.png" width="400px"/>
+            <figcaption>max_ray_depth = 5 (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.11.png" width="400px"/>
+            <figcaption>max_ray_depth = 100 (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br>
+    <p>
+        Value m decide how many time the rays can be reflected. This value help to make the scene looks more realistic.<br>
+        1. m = 0 : It only shows light source.<br>
+        2. m = 1 : It only shows only direct light.<br>
+        3. m = 2 ~ 5 : The light reflect (m-1) times. The bigger n value is, the brighter the edge and shadow points are.<br>
+        4. m = 100 : It's not that different with m = 5. It's because the energy of light is too small to affect the amount of light.<br>
+    </p>
+    <br>
+
+    <h3>
+      Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.12.png" width="400px"/>
+            <figcaption>1 sample per pixel (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/4.13.png" width="400px"/>
+            <figcaption>2 samples per pixel (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.14.png" width="400px"/>
+            <figcaption>4 samples per pixel (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/4.15.png" width="400px"/>
+            <figcaption>8 samples per pixel (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.16.png" width="400px"/>
+            <figcaption>16 samples per pixel (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/4.17.png" width="400px"/>
+            <figcaption>64 samples per pixel (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/4.18.png" width="400px"/>
+            <figcaption>1024 samples per pixel (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>
+        Value s decide how many light will be shoot to make the color of each pixel. The bigger s is, the less noise be made by convergence of integral of rendering equation.<br>
+        1. s = 1 ~ 8 : It makes so many noise and can't get the detail of the scene.<br>
+        2. s = 16 ~ 1024 : The average value of each pixel become more and more similar to energy of light, and it become smoother and higher quality.<br>
+    </p>
+    <br>
+
+    <h2>Part 5: Adaptive Sampling (20 Points)</h2>
+    <!-- Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
+    Pick one scene and render it with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth. -->
+
+    <h3>
+      Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
+    </h3>
+    <p>
+        Adaptive sampling change number of sample by complexity of pixel, instead of shooting same number of sample on every same pixel. The place that have less change of color like wall or floor make the noise vanish fastly, but edge of sadow or complex light source need many samples to block the noise. Adaptive sampling use confidence interval, so that stop additional sampling in the pixel with 95% color reliablity when it is thought to be converged enough. Through this way, it can decrease overall rendering calculation siginificantly with high quality of image.
+    </p>
+
+    <h3>
+      Pick two scenes and render them with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth.
+    </h3>
+    <!-- Example of including multiple figures -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/5.1.png" width="400px"/>
+            <figcaption>Rendered image (CBbunny.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/5.2.png" width="400px"/>
+            <figcaption>Sample rate image (CBbunny.dae)</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <img src="images/5.3.png" width="400px"/>
+            <figcaption>Rendered image (CBspheres.dae)</figcaption>
+          </td>
+          <td style="text-align: center;">
+            <img src="images/5.4.png" width="400px"/>
+            <figcaption>Sample rate image (CBspheres.dae)</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
 </html>

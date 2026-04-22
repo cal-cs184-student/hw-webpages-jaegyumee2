@@ -27,19 +27,24 @@
 	</head>
 	<body>
 		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<h1>CS184/284A Spring 2026 Homework 2 MeshEdit Write-Up</h1>
+		<div style="text-align: center;">Names: Jaegyeom KIM</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage : <a href="https://cal-cs184-student.github.io/hw-webpages-jaegyumee2/hw2/">cal-cs184-student.github.io/hw-webpages-jaegyumee2/hw2/</a>
 
 		<br>
 		
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository : <a href="https://github.com/cal-cs184-student/hw2-meshedit-kim.git">github.com/cal-cs184-student/hw2-meshedit-kim</a>
+		
+		<br>
+		
+		Link to HW page : <a href="https://cs184.eecs.berkeley.edu/sp26/hw/hw2/">cs184.eecs.berkeley.edu/sp26/hw/hw2/</a>
+
 
 		<figure>
-			<img src="teapot.png" alt="Teapot" style="width:50%"/>
+			<img src="images/teapot.png" alt="Teapot" style="width:100%"/>
 			<figcaption>You can add images with captions!</figcaption>
 		</figure>
 
@@ -48,69 +53,191 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
-
+		In HW2, I explored geometric modeling and mesh processing.<br>
+		1. Started by implementing 1D Bezier curves and 2D Bezier surfaces using the de Casteljau algorithm for smooth geometric evaluation.<br>
+		2. Worked with 3D triangle meshes using the Half-Edge data structure, implementing area-weighted vertex normals for smoother shading.<br>
+		The most challenging and interesting part was directly manipulating half-edge pointers to implement local mesh operations like Edge Flip and Edge Split. By combining these local operations, I successfully implemented Loop Subdivision, which upsamples and smooths coarse meshes into high-resolution geometries.<br>
+		<br>
 		<h2>Section I: Bezier Curves and Surfaces</h2>
-
+		<p>
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		De Casteljau algorithm is recursive way to linear interpolate control points with value t. When n points given, interpolate near two points p and p+1 with t:(1-t) ratio and make new n-1 points. Conduct this process till only one point left. The position of the last point is the point of bezier curve on parameter t.<br>
+		<br>
+		<b>[EvaluateStep 2D Function]</b><br>
+		1. Check size of points vector and return points if size is 1.<br>
+		2. If not, conduct loop for points.size()-1 times.<br>
+		3. Conduct linear interpolating calculation [ p = (1 - t) * p_i + t * p_{i+1} ]<br>
+		4. Return new points.<br>
+		</p>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/p11.png" width="300px"/>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/p12.png" width="300px"/>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/p13.png" width="300px"/>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/p14.png" width="300px"/>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/p15.png" width="300px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/p16.png" width="300px"/>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/p17.png" width="300px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/p18.png" width="300px"/>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+		Bezier curve surface is defined with NxN control points and two parameter for row/column interpolate parameter. To find one point of bezier curve surface, conduct de Castelijau seperatly on row and column. Normally conduct on row first, and condcut column interpolation with result points of row interpolating.<br>
+		<br>
+		<b>[EvualteStep 3D Function]</b><br>
+		Conduct interpolate one time on 3D space. Similar with part1, but difference is degree of vector. Return n-1 points.<br>
+		<br>
+		<b>[Evaluate1D Function]</b><br>
+		Recursive bezier curve function. Conduct de Castelijau algorithm until only 1 point left with while loop. Return last 1 point of bezier curve.<br>	
+		<br>
+		<b>[Evaluate Function]</b><br>
+		The real curve surface evaluation function. Conduct 4 tiems row interpolation and 1 last column interpolation. Return 1 last point of bezier curve surfave.<br>
+		</p>
+		<img src="images/p21.png" width="400px"/>
+
+
 
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
-
+		<p>
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		The cross product give us the perpendicular vector of 2 given vectors and the size is twice of triangle with that two vectors. So if we know vectors of near triangles, we can conduct area-weighted interpolation with cross product. And we can get coordinates of near points easily with halfedge methods.<br>
+		<br>
+		<b>[Noraml Function]</b><br>
+		1. Start with halfedge(), tour around the triangle with do-while and h->twin()->next(). <br>
+		2. Take coordinates of 3 points and make two vector. <br>
+		3. Conduct cross product with that 2 vectors so that can get area-weighted vectors. <br>
+		4. Accumulate every vectors on Vector3D variable n and return with normalized size.<br>
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/p31.png" width="400px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/p32.png" width="400px"/>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/p33.png" width="400px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/p34.png" width="400px"/>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+		The edge flip make ugly divided quardrilateral to well divided quardrilateral with beutiful 2 triangle. setNeighbors() let us change the ugly edge to pretty edge easily. I drew the shape of triangles on my notepad and thought about how can I flip the edge.<br>
+		<br>
+		<b>[Edgeflip Function]</b><br>
+		1. Save every entities into new variables such as halfedge, vertex, edge, face.<br>
+		2. Use setNeighbors() so that change the elements of halfedges without defining new variable.<br>
+		3. Reassign new halfedges of vertex, edge and faces.<br>
+		</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/p41.png" width="400px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/p42.png" width="400px"/>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+		The edge split let us split 2 triangles to 4 triangles. It's quite similar with edgeflip().<br>
+		<br>
+		<b>[Edgesplit Function]</b><br>
+		1. Save every entities into new variables such as halfedge, vertex, edge, face.<br>
+		2. Make new entities for new triangles. We need 3 more faces, 2 more edges, 1 more vertex and 6 more halfedges.<br>
+		3. Use setNeighbors() so that change the elements of 12 halfedges.<br>
+		4. Reassign new halfedges of 5 vertexes, 4 inside edges and 4 faces.<br>
+		</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/p51.png" width="400px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/p52.png" width="400px"/>
+				</td>
+			  	</tr>
+			  	<tr>
+				<td style="text-align: center;">
+				  <img src="images/p53.png" width="400px"/>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+		Loop of edgeflip edgesplit to make mesh smoother.<br>
+		<br>
+		<b>[Upsample Function]</b><br>
+		Step 1. For old vertives, calculate new position and save it on newPosition. Calculate value u with v, and interpolate it with position of neighbor positions.<br>
+		Step 2. Calculate the split points of edges. for every edges, look over 2 triangels that contains edge and calculate the split point with interpolating 4 vertexes.<br>
+		Step 3. Split the edges in real and give the new position from step 2 calculation. New vertexes are made isNew true.<br>
+		Step 4. Flip the edges that connect old vertex and new vertex.<br>
+		Step 5. Rotate all vertexes and set position to newPostions. Points move to new calculated position.<br>
+		</p>
 
-		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/p61.png" width="400px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/p62.png" width="400px"/>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/p63.png" width="400px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/p64.png" width="400px"/>
+				</td>
+			  </tr>
+			</table>
 		</div>
 	</body>
 </html>
