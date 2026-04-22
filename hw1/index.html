@@ -27,19 +27,19 @@
 	</head>
 	<body>
 		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 1 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<h1>CS184/284A Spring 2026 Homework 1 Rasterizer Write-Up</h1>
+		<div style="text-align: center;">Names: Jaegyeom KIM </div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-jaegyumee2/hw1/">cal-cs184-student.github.io/hw-webpages-jaegyumee2/hw1/</a>
 		
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/hw1-rasterizer-jaegyumee2.git">https://github.com/cal-cs184-student/hw1-rasterizer-jaegyumee2</a>
 
 		<figure>
-			<img src="lion.jpg" alt="Lion" style="width:50%"/>
+			<img src="images/lion.jpg" alt="Lion" style="width:100%"/>
 			<figcaption>You can add images with captions!</figcaption>
 		</figure>
 
@@ -48,65 +48,162 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In HW1, I implemented a software rasterizer from scratch.<br>
+		1. Starting with rasterizing single-color triangles, I implemented supersampling to resolve aliasing issues (jaggies)<br>
+		2. Implemented 2D geometric transforms using matrices and utilized barycentric coordinates to smoothly interpolate colors across triangle faces.<br>
+		3. Implemented texture mapping using various pixel sampling methods (Nearest, Bilinear) and level sampling with mipmaps.<br>
+		Through this project, I deeply understood the rendering pipeline, anti-aliasing techniques, and the trade-offs between memory and rendering performance.<br>
 
+		<br>
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+		1. Get max and min value of X and Y. <br>
+		2. Re-check it if they are out of bound. <br>
+		3. Add 0.5 on X and Y to watch middle of pixel. <br>
+		4. Use linear equation to check if pixel x,y is in the triangle or not.<br>
+		</p>
+		<img src="images/screenshot_2-17_21-35-21.png" width="400px"/>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		
+		<h2>Task 2: Antialiasing by Supersampling</h2>
+		<p>
+		1. Increased size of simple_buffer to "width * height * sample_rate". <br>
+		2. Modified fill_pixel to fill every pixel, not single pixel. <br>
+		3. Made rasterize_triangle to double double loop and change color of the single supersampled pixel. <br>
+		4. Modified resolve_to_framebuffer so that can get average the color of supersampled pixels.<br>
+		5. Through supersampling, we can extract average color of supersampled pixels and it makes high frequency parts smoother. Therefore, we can raterize diagrams more accurate and not-ugly. <br>
+		</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/screenshot_2-17_21-27-31.png" width="400px"/>
 				</td>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/screenshot_2-17_21-32-35.png" width="400px"/>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/screenshot_2-17_21-32-39.png" width="400px"/>
 				</td>
 			  </tr>
 			</table>
 		</div>
-		
-		<h2>Task 2: Antialiasing by Supersampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 		<h2>Task 3: Transforms</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+		<p>
+		1. Made robot pull down his left arm.<br>
+		2. Made robot pull up his right arm so that it salute to me.<br>
+		</p>
+		<img src="images/screenshot_2-18_0-25-0.png" width="400px"/>
+		
 		<h2>Task 4: Barycentric coordinates</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+		Baryecentric coordianates is a method to know weight-balanced point. It let me know how much is the center of pixel far away from each point of triangle. Also, just like center of gravity of triangle, sum of three fraction(L(i)/L(i)_max) is always 1.<br>
+		</p>
+		<img src="images/screenshot_2-18_0-55-15.png" width="400px"/>
 
 		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+		<b>Rasterize Textured Triangle</b><br>
+		1. Basic loop is similar with Task4.<br>
+		2. But instead of Color, I interpolated U and V.<br>
+		3. Get texture info with interpolated U and V through SampleParams.<br>
+		</p>
+
+		<p>
+		<b>Sample Nearest</b><br>		
+		Nearest sampling take texture of only one nearest pixel through round calculation.<br>
+		</p>
+
+		<p>
+		<b>Sample Bilinear</b><br>
+		1. Bilinear sampling take mixed texture of 4 near pixels.<br>
+		2. Get index of 4 pixels through floor and ceiling calculation of x and y grid.<br>
+		3. Get interpolated value s_x and s_y with floor value of x and y.<br>
+		4. Now mix 4 textures. Mix 2 horizontal pixels of 2 row. And mix 2 vertically mixed texture to final texture value.<br>
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/screenshot_2-18_2-31-55.png" width="400px"/>
+				  <figcaption>Nearest, 1 SuperSample</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/screenshot_2-18_2-32-52.png" width="400px"/>
+				  <figcaption>Nearest, 16 SuperSample</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/screenshot_2-18_2-33-6.png" width="400px"/>
+				  <figcaption>Bilinear, 1 SuperSample</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/screenshot_2-18_2-33-26.png" width="400px"/>
+				  <figcaption>Bilinear, 16 SuperSample</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		Level Sampling : Level sampling let me know how far away the picture is placed from screen. I can know interpolated U and V of (x+1,y) and (x,y+1) with calculation of task 5. With get_level function, get mipmap level through calculation wtih uv value. After that, we can finally conduct triple sampling includes pixel, linear and level.<br>
+		<h3>Comparison</h3>
 
-		<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+		<b>
+		Pixel Sampling
+		</b><br>
+		1. Speed : Very fast. It only calculate inside bouding box.<br>
+		2. Memory : 1 original image memory and bounding box.<br>
+		3. Performance : No AA. It barely have AA.<br>
+		</p>
 
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		<p>
+		<b>
+		Super Sampling
+		</b><br>
+		1. Speed : Very slow. (pixel sampling) * (sample_rate)<br>
+		2. Memory : Too much. (original image memory) * (sampel_rate)<br>
+		3. Performance : AA GOAT. Its performance is best of three. But especially good at jaggies.<br>
+		</p>
+
+		<p>
+		<b>
+		Level Sampling
+		</b><br>
+		1. Speed : Fast. it only need to calculate smaller mipmaps.<br>
+		2. Memory : Not that big. (original image) + (image) / 4 + (image) / 16 + .....<br>
+		3. Performance : Texture special force. It's perfect to fix texture aliasing. But not enough for jaggies.<br>
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/screenshot_2-18_16-49-45.png" width="400px"/>
+				  <figcaption>ZERO, NEAREST</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/screenshot_2-18_16-49-50.png" width="400px"/>
+				  <figcaption>ZERO, LINEAR</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/screenshot_2-18_16-50-32.png" width="400px"/>
+				  <figcaption>NEAREST, NEAREST</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/screenshot_2-18_16-50-34.png" width="400px"/>
+				  <figcaption>Nearest, LINEAR</figcaption>
+				</td>
+			  </tr>
+			</table>
 		</div>
 	</body>
 </html>
